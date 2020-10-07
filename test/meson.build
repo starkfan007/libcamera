@@ -9,6 +9,7 @@ test_enabled = true
 
 subdir('libtest')
 
+subdir('cam')
 subdir('camera')
 subdir('controls')
 subdir('ipa')
