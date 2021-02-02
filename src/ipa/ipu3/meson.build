@@ -21,6 +21,7 @@ ipu3_ipa_files = files([
     'ipu3.cpp',
 ])
 
+subdir('aic')
 subdir('aiq')
 subdir('stats')
 
