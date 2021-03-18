@@ -126,6 +126,9 @@ LogMessage _log(const LogCategory *category, LogSeverity severity,
 #define ASSERT(condition) static_cast<void>(false && (condition))
 #endif
 
+/* Provide a quick way to introduce a backtrace on the logging system. */
+void backtrace();
+
 } /* namespace libcamera */
 
 #endif /* __LIBCAMERA_INTERNAL_LOG_H__ */
