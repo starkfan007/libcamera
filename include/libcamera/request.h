@@ -24,8 +24,10 @@ class CameraControlValidator;
 class FrameBuffer;
 class Stream;
 
-class Request
+class Request : public Extensible
 {
+	LIBCAMERA_DECLARE_PRIVATE()
+
 public:
 	enum Status {
 		RequestPending,

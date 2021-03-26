@@ -28,6 +28,19 @@ namespace libcamera {
 
 LOG_DEFINE_CATEGORY(Request)
 
+class Request::Private : public Extensible::Private
+{
+	LIBCAMERA_DECLARE_PUBLIC(Request)
+
+public:
+	Private(Request *request);
+};
+
+Request::Private::Private(Request *request)
+	: Extensible::Private(request)
+{
+}
+
 /**
  * \enum Request::Status
  * Request completion status
@@ -73,8 +86,8 @@ LOG_DEFINE_CATEGORY(Request)
  *
  */
 Request::Request(Camera *camera, uint64_t cookie)
-	: camera_(camera), sequence_(0), cookie_(cookie),
-	  status_(RequestPending), cancelled_(false)
+	: Extensible(new Private(this)), camera_(camera), sequence_(0),
+	  cookie_(cookie), status_(RequestPending), cancelled_(false)
 {
 	/**
 	 * \todo Should the Camera expose a validator instance, to avoid
@@ -114,6 +127,9 @@ Request::~Request()
  */
 void Request::reuse(ReuseFlag flags)
 {
+	Private *const d = LIBCAMERA_D_PTR();
+	ASSERT(d);
+
 	LIBCAMERA_TRACEPOINT(request_reuse, this);
 
 	pending_.clear();
@@ -179,6 +195,9 @@ void Request::reuse(ReuseFlag flags)
  */
 int Request::addBuffer(const Stream *stream, FrameBuffer *buffer)
 {
+	Private *const d = LIBCAMERA_D_PTR();
+	ASSERT(d);
+
 	if (!stream) {
 		LOG(Request, Error) << "Invalid stream reference";
 		return -EINVAL;
@@ -214,6 +233,9 @@ int Request::addBuffer(const Stream *stream, FrameBuffer *buffer)
  */
 FrameBuffer *Request::findBuffer(const Stream *stream) const
 {
+	const Private *const d = LIBCAMERA_D_PTR();
+	ASSERT(d);
+
 	const auto it = bufferMap_.find(stream);
 	if (it == bufferMap_.end())
 		return nullptr;
@@ -282,6 +304,8 @@ FrameBuffer *Request::findBuffer(const Stream *stream) const
  */
 void Request::complete()
 {
+	Private *const d = LIBCAMERA_D_PTR();
+	ASSERT(d);
 	ASSERT(status_ == RequestPending);
 	ASSERT(!hasPendingBuffers());
 
@@ -307,6 +331,9 @@ void Request::complete()
  */
 bool Request::completeBuffer(FrameBuffer *buffer)
 {
+	Private *const d = LIBCAMERA_D_PTR();
+	ASSERT(d);
+
 	LIBCAMERA_TRACEPOINT(request_complete_buffer, this, buffer);
 
 	int ret = pending_.erase(buffer);
@@ -330,6 +357,9 @@ bool Request::completeBuffer(FrameBuffer *buffer)
  */
 std::string Request::toString() const
 {
+	const Private *const d = LIBCAMERA_D_PTR();
+	ASSERT(d);
+
 	std::stringstream ss;
 
 	/* Pending, Completed, Cancelled(X). */
