@@ -626,7 +626,10 @@ void MainWindow::processHotplug(HotplugEvent *e)
 
 void MainWindow::addCamera(std::shared_ptr<Camera> camera)
 {
-	qInfo() << "Adding new camera:" << camera->id().c_str();
+	QString msg = QString("Adding new camera: ") + camera->id().c_str();
+	qInfo() << msg;
+	statusBar()->showMessage(msg, 2000);
+
 	QCoreApplication::postEvent(this,
 				    new HotplugEvent(std::move(camera),
 						     HotplugEvent::HotPlug));
@@ -634,7 +637,10 @@ void MainWindow::addCamera(std::shared_ptr<Camera> camera)
 
 void MainWindow::removeCamera(std::shared_ptr<Camera> camera)
 {
-	qInfo() << "Removing camera:" << camera->id().c_str();
+	QString msg = QString("Removing camera: ") + camera->id().c_str();
+	qInfo() << msg;
+	statusBar()->showMessage(msg, 2000);
+
 	QCoreApplication::postEvent(this,
 				    new HotplugEvent(std::move(camera),
 						     HotplugEvent::HotUnplug));
