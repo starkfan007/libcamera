@@ -61,6 +61,7 @@ private Q_SLOTS:
 	void switchCamera(int index);
 	void toggleCapture(bool start);
 
+	void saveImage();
 	void saveImageAs();
 	void captureRaw();
 	void processRaw(FrameBuffer *buffer, const ControlList &metadata);
