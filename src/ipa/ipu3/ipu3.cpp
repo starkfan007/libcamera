@@ -276,6 +276,9 @@ void IPAIPU3::fillParams(unsigned int frame, ipu3_uapi_params *params)
 	aic_.updateRuntimeParams(results_);
 	aic_.run(params);
 
+	if (frame % 10 == 0)
+		aiq::dumpExposure(results_.ae()->exposures);
+
 	exposure_ = results_.ae()->exposures[0].sensor_exposure->coarse_integration_time;
 	gain_ = results_.ae()->exposures[0].sensor_exposure->analog_gain_code_global;
 	setControls(frame);
