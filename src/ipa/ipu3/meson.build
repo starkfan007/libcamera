@@ -22,6 +22,7 @@ ipu3_ipa_files = files([
 ])
 
 subdir('aiq')
+subdir('stats')
 
 mod = shared_module(ipa_name,
                     [ipu3_ipa_files, libcamera_generated_ipa_headers],
