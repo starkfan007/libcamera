@@ -27,6 +27,12 @@
 
 namespace libcamera {
 
+{%- if has_namespace %}
+{% for ns in namespace -%}
+using namespace {{ns}};
+{% endfor %}
+{%- endif %}
+
 LOG_DECLARE_CATEGORY(IPADataSerializer)
 {% for struct in structs_nonempty %}
 template<>
