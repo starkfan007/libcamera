@@ -37,8 +37,7 @@ public:
 	int start() override;
 	void stop() override {}
 
-	void configure(const std::map<uint32_t, ControlInfoMap> &entityControls,
-		       const Size &bdsOutputSize) override;
+	void configure(const struct IPAConfigInfo &configInfo) override;
 
 	void mapBuffers(const std::vector<IPABuffer> &buffers) override;
 	void unmapBuffers(const std::vector<unsigned int> &ids) override;
@@ -72,13 +71,14 @@ int IPAIPU3::start()
 	return 0;
 }
 
-void IPAIPU3::configure(const std::map<uint32_t, ControlInfoMap> &entityControls,
-			[[maybe_unused]] const Size &bdsOutputSize)
+void IPAIPU3::configure(const struct IPAConfigInfo &configInfo)
 {
-	if (entityControls.empty())
+	if (configInfo.entityControls.empty())
 		return;
 
-	ctrls_ = entityControls.at(0);
+	ctrls_ = configInfo.entityControls.at(0);
+
+	struct IPAConfigInfo configinfo1 = configInfo;
 
 	const auto itExp = ctrls_.find(V4L2_CID_EXPOSURE);
 	if (itExp == ctrls_.end()) {

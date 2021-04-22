@@ -635,7 +635,13 @@ int PipelineHandlerIPU3::configure(Camera *camera, CameraConfiguration *c)
 
 	std::map<uint32_t, ControlInfoMap> entityControls;
 	entityControls.emplace(0, data->cio2_.sensor()->controls());
-	data->ipa_->configure(entityControls, config->imguConfig().bds);
+
+	struct ipa::ipu3::IPAConfigInfo configInfo = {
+		sensorInfo, entityControls, config->imguConfig().bds,
+		config->imguConfig().iif, config->imguConfig().gdc,
+		data->cropRegion_.size()
+	};
+	data->ipa_->configure(configInfo);
 
 	return 0;
 }

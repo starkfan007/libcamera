@@ -25,12 +25,21 @@ struct IPU3Action {
 	ControlList controls;
 };
 
+struct IPAConfigInfo {
+	CameraSensorInfo sensorInfo;
+	map<uint32, ControlInfoMap> entityControls;
+	Size bdsOutputSize;
+	Size iif;
+	Size gdcSize;
+	Size cropRegion;
+};
+
 interface IPAIPU3Interface {
 	init(IPASettings settings) => (int32 ret);
 	start() => (int32 ret);
 	stop();
 
-	configure(map<uint32, ControlInfoMap> entityControls, Size bdsOutputSize) => ();
+	configure(IPAConfigInfo configInfo) => ();
 
 	mapBuffers(array<IPABuffer> buffers);
 	unmapBuffers(array<uint32> ids);
