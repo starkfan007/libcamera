@@ -27,7 +27,7 @@
 
 #include <linux/intel-ipu3.h>
 
-namespace libcamera {
+namespace libcamera::ipa::ipu3 {
 
 class IPU3AllStats
 {
@@ -50,7 +50,7 @@ private:
 	static void ipu3_stats_init_3a(struct ipu3_stats_all_stats *all_stats);
 };
 
-} /* namespace libcamera */
+} /* namespace libcamera::ipa::ipu3 */
 
 #endif /* IPU3_ALL_STATS_H */
 

@@ -24,7 +24,7 @@
 #include <assert.h>
 #include <string.h>
 
-namespace libcamera {
+namespace libcamera::ipa::ipu3 {
 
 #define IA_CSS_ENTER(...) \
 	{                 \
@@ -1011,5 +1011,5 @@ IPU3AllStats::intel_skycam_statistics_convert(const ia_css_4a_statistics &statis
 	return ia_err_none;
 }
 
-} // namespace libcamera
+} // namespace libcamera::ipa::ipu3
 
