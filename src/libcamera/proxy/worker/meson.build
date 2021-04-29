@@ -24,5 +24,10 @@ foreach mojom : ipa_mojoms
                        dependencies : libcamera_dep)
 endforeach
 
-config_h.set('IPA_PROXY_DIR',
-             '"' + get_option('prefix') / proxy_install_dir + '"')
+proxy_prefix_install_dir = get_option('prefix') / proxy_install_dir
+
+config_h.set('IPA_PROXY_DIR', '"' + proxy_prefix_install_dir + '"')
+
+summary({
+          'IPA_PROXY_DIR' : proxy_prefix_install_dir,
+        }, section : 'Paths')
