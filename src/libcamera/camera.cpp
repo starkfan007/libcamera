@@ -982,6 +982,7 @@ std::unique_ptr<Request> Camera::createRequest(uint64_t cookie)
  * \return 0 on success or a negative error code otherwise
  * \retval -ENODEV The camera has been disconnected from the system
  * \retval -EACCES The camera is not running so requests can't be queued
+ * \retval -EXDEV The request does not belong to this camera
  * \retval -EINVAL The request is invalid
  * \retval -ENOMEM No buffer memory was available to handle the request
  */
@@ -992,6 +993,12 @@ int Camera::queueRequest(Request *request)
 	int ret = d->isAccessAllowed(Private::CameraRunning);
 	if (ret < 0)
 		return ret;
+
+	if (request->camera() != this) {
+		LOG(Camera, Error)
+			<< "The request does not belong to this camera";
+		return -EXDEV;
+	}
 
 	/*
 	 * The camera state may change until the end of the function. No locking
