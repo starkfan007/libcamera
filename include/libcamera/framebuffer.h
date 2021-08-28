@@ -61,7 +61,7 @@ private:
 	LIBCAMERA_DISABLE_COPY_AND_MOVE(FrameBuffer)
 
 	friend class V4L2VideoDevice; /* Needed to update metadata_. */
-	friend class ISP;
+	friend class ISPCPU;
 
 	std::vector<Plane> planes_;
 
